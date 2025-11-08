@@ -14,20 +14,57 @@ using namespace std;
 
 /*
  * getMin
+ * Input:
+ *      vector<double> &cost: vector of double cost values
+ *      vector<bool> &visited: vector of booleans indicating visited status
+ * Output: 
+ *      int: minimum cost value
+ * Function: Performs a linear search to find vertex with the minimum cost.
  */
 int getMin(vector<double> &cost, vector<bool> &visited) {
-    return -1;
+    int sz = visited.size(); // get size
+    double curr_min = 1.0/0.0; // init to infinity
+
+    for(int i = 0; i < sz; i++) {
+        if(visited[i] == false) {
+            if(cost[i] < curr_min) {
+                curr_min = cost[i];
+            } // is less than check
+            visited[i] = true;
+        } // if not visited check
+    } // loop
+
+    return curr_min;
 }
 
 /*
  * isEmpty
+ * Input:
+ *      vector<bool> &visited: vector of booleans indicating visited status
+ * Output:
+ *      bool: returns a true or false
+ * Function: Finds if the vector of visited are empty or not
  */
 bool isEmpty(vector<bool> &visited) {
+    int sz = visited.size(); // get size
+
+    for(int i = 0; i < sz; i++) {
+        if(visited[i] == false) {
+            return false;
+        } // if any false, return
+    } // loop to find if vector empty
+
     return true;
 }
 
 /*
  * prim
+ * Input:
+ *      vector<Vertex> &adjList: Vector of the vertices
+ *      vector<double> &adjMat: Vector of edge costs
+ * Output:
+ *      vector<Edge>: A vector of edes in the MST
+ * Function: Finds the minimum path and returns vector
  */
 vector<Edge> prim(vector<Vertex> &adjList, vector<double> &adjMat) {
     // Initialize the empty MST.
@@ -39,6 +76,9 @@ vector<Edge> prim(vector<Vertex> &adjList, vector<double> &adjMat) {
     vector<bool> visited(n, false);
     vector<double> cost(n, numeric_limits<double>::infinity());
     vector<int> prev(n, -1);
+
+    // Prim's alg
+    
 
     return mst;
 }
