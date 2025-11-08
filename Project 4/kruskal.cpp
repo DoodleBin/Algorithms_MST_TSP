@@ -3,9 +3,9 @@
  * kruskal.cpp
  * Fall 2025
  *
- * Partner 1:
- * Partner 2:
- * Date:
+ * Partner 1: Alexa Hatcher
+ * Partner 2: Medhashree Adhikari
+ * Date: November 21, 2025
  */
 
 #include "kruskal.hpp"
