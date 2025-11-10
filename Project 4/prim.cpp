@@ -87,14 +87,14 @@ vector<Edge> prim(vector<Vertex> &adjList, vector<double> &adjMat) {
         visited[current] = true;
         for (int i : adjList[current].neighbors){
             if (visited[adjList[i].label] == false){
-                if (cost[adjMat[i]] > mst[current].weight){
+                if (adjMat[i] > cost[adjList[current].label]){
                     cost[adjList[i].label] = cost[adjList[current].label];
                     prev[adjList[i].label] = adjList[current].label;
                     q.push(i);
                 }
                 visited[adjList[i].label] = true;
             }
-            Edge newEdge(adjList[prev[adjList[current].label]], adjList[current], cost[adjList[current].label]);
+            Edge newEdge(adjList[prev[adjList[current].label]], adjList[current], adjMat[current*n + i]);
             mst.push_back(newEdge);
         }
     }
