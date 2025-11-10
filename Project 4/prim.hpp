@@ -11,6 +11,7 @@
 #ifndef PRIM_HPP_
 #define PRIM_HPP_
 
+#include <queue>
 #include "Vertex.hpp"
 #include "Edge.hpp"
 

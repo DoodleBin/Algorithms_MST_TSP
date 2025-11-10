@@ -78,6 +78,26 @@ vector<Edge> prim(vector<Vertex> &adjList, vector<double> &adjMat) {
     vector<int> prev(n, -1);
 
     // Prim's alg
+    queue<int> q;
+    q.push(adjList[0].label);
+
+    while(!q.empty()){
+        int current = q.front();
+        q.pop();
+        visited[current] = true;
+        for (int i : adjList[current].neighbors){
+            if (visited[adjList[i].label] == false){
+                if (cost[adjMat[i]] > mst[current].weight){
+                    cost[adjList[i].label] = cost[adjList[current].label];
+                    prev[adjList[i].label] = adjList[current].label;
+                    q.push(i);
+                }
+                visited[adjList[i].label] = true;
+            }
+            Edge newEdge(adjList[prev[adjList[current].label]], adjList[current], cost[adjList[current].label]);
+            mst.push_back(newEdge);
+        }
+    }
     
 
     return mst;
