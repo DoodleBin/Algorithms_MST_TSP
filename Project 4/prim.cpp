@@ -79,13 +79,19 @@ vector<Edge> prim(vector<Vertex> &adjList, vector<double> &adjMat) {
 
     // Prim's alg
     queue<int> q;
-    q.push(adjList[0].label);
+    q.push(adjList[0].label); // choose 1st vertex
+    cout << "1st thing" << endl;
+    cout << adjList[0].label << endl;
 
+    cout << "inside while" << endl;
     while(!q.empty()){
         int current = q.front();
+        
         q.pop();
         visited[current] = true;
+
         for (int i : adjList[current].neighbors){
+            cout << adjList[i].label << endl;
             if (visited[adjList[i].label] == false){
                 if (adjMat[i] > cost[adjList[current].label]){
                     cost[adjList[i].label] = cost[adjList[current].label];
@@ -93,12 +99,12 @@ vector<Edge> prim(vector<Vertex> &adjList, vector<double> &adjMat) {
                     q.push(i);
                 }
                 visited[adjList[i].label] = true;
+                prev[i] = current;
             }
-            Edge newEdge(adjList[prev[adjList[current].label]], adjList[current], adjMat[current*n + i]);
+            Edge newEdge(adjList[current], adjList[current+1], adjMat[(current)*n + i]);
             mst.push_back(newEdge);
         }
-    }
-    
+    } // while stack not empty
 
     return mst;
 }
