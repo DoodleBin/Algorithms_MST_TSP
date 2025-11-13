@@ -24,15 +24,14 @@ using namespace std;
 int getMin(vector<double> &cost, vector<bool> &visited) {
     int sz = visited.size(); // get size
     double curr_min = 1.0/0.0; // init to infinity
-    // track index
-    int min_index = -1;
+    int min_index = -1; // track index
 
     for(int i = 0; i < sz; i++) {
         if(visited[i] == false) {
             if(cost[i] < curr_min) {
                 curr_min = cost[i];
                 min_index = i;
-            } // is less than check
+            } // is less than check, update index and value
         } // if not visited check
     } // loop
 
@@ -91,13 +90,12 @@ vector<Edge> prim(vector<Vertex> &adjList, vector<double> &adjMat) {
                 if (cost[i] > adjMat[current*n + i]) {
                     cost[i] = adjMat[current*n + i];
                     prev[i] = current;
-                }
+                } 
             }
-        }
-        // update curr mst neighbors, prev neighbors
-    } // while stack not empty
+        } // visit all unvisited neighbors
+    } // while there are still vertices to visit
 
-    // loop through
+    // loop through and update mst
     for(int current = 1; current < n; current++) {
         adjList[current].mstNeighbors.push_back(prev[current]); // label of neighbor
         adjList[prev[current]].mstNeighbors.push_back(current); // label of neighbor
