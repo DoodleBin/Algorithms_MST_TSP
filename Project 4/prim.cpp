@@ -24,17 +24,19 @@ using namespace std;
 int getMin(vector<double> &cost, vector<bool> &visited) {
     int sz = visited.size(); // get size
     double curr_min = 1.0/0.0; // init to infinity
+    // track index
+    int min_index = -1;
 
     for(int i = 0; i < sz; i++) {
         if(visited[i] == false) {
             if(cost[i] < curr_min) {
                 curr_min = cost[i];
+                min_index = i;
             } // is less than check
-            visited[i] = true;
         } // if not visited check
     } // loop
 
-    return curr_min;
+    return min_index;
 }
 
 /*
@@ -78,33 +80,30 @@ vector<Edge> prim(vector<Vertex> &adjList, vector<double> &adjMat) {
     vector<int> prev(n, -1);
 
     // Prim's alg
-    queue<int> q;
-    q.push(adjList[0].label); // choose 1st vertex
-    cout << "1st thing" << endl;
-    cout << adjList[0].label << endl;
+    cost[0] = 0; // vertex w label 0
 
-    cout << "inside while" << endl;
-    while(!q.empty()){
-        int current = q.front();
-        
-        q.pop();
+    while(not isEmpty(visited)){
+        int current = getMin(cost, visited);
         visited[current] = true;
 
         for (int i : adjList[current].neighbors){
-            cout << adjList[i].label << endl;
-            if (visited[adjList[i].label] == false){
-                if (adjMat[i] > cost[adjList[current].label]){
-                    cost[adjList[i].label] = cost[adjList[current].label];
-                    prev[adjList[i].label] = adjList[current].label;
-                    q.push(i);
+            if (visited[i] == false){
+                if (cost[i] > adjMat[current*n + i]) {
+                    cost[i] = adjMat[current*n + i];
+                    prev[i] = current;
                 }
-                visited[adjList[i].label] = true;
-                prev[i] = current;
             }
-            Edge newEdge(adjList[current], adjList[current+1], adjMat[(current)*n + i]);
-            mst.push_back(newEdge);
         }
+        // update curr mst neighbors, prev neighbors
     } // while stack not empty
+
+    // loop through
+    for(int current = 1; current < n; current++) {
+        adjList[current].mstNeighbors.push_back(prev[current]); // label of neighbor
+        adjList[prev[current]].mstNeighbors.push_back(current); // label of neighbor
+        Edge newEdge(adjList[current], adjList[prev[current]], adjMat[prev[current]*n + current]);
+        mst.push_back(newEdge);
+    }
 
     return mst;
 }
