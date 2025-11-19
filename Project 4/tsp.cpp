@@ -23,13 +23,17 @@ vector<int> tsp(vector<Vertex> &adjList, Vertex &start) {
     int n = adjList.size();
     vector<bool> visited(n, false);
 
-    Vertex current = start;
-    visited[current.label] = true;
-    for(int j = 0; j < n-1; j++){
-        current = adjList[j];
-        visited[current.label] = true;
+    // int current = start.label;
+    // visited[current] = true;
+    // tour.push_back(current);
+    // int current = start.label;
+    visited[start.label] = true;
+    tour.push_back(start.label);
 
-        for (int i : adjList[current.label].neighbors){
+    for(int j = 1; j < n; j++){
+        visited[j] = true;
+
+        for (int i : adjList[j].neighbors){
             if (visited[i] == false){
                 tour.push_back(i);
             } // visit all unvisited neighbors

@@ -32,13 +32,24 @@ int find(int v, vector<int> &pi)
 
 /*
  * union_by_rank
+ // rank == current height
  */
 void union_by_rank(int u, int v, vector<int> &rank, vector<int> &pi)
 {
-    // int root1 = find(u, pi);
-    // int root2 = find(v, pi);
-    // if()
+    int root1 = find(u, pi);
+    int root2 = find(v, pi);
+
     //  //connect both roots
+    if(rank[root1] == rank[root2]) {
+        // make root2 point root1 root
+        pi[root1] = root2;
+    } else if(rank[root1] > rank[root2]) {
+        // make root2 point at root1 root
+        pi[root1] = root2;
+    } else if(rank[root1] < rank[root2]) {
+        // make root1 point at root2 root
+        pi[root2] = root1;
+    }
 
     return;
 }
@@ -56,10 +67,15 @@ vector<Edge> kruskal(vector<Vertex> &adjList, vector<Edge> &edgeList)
     int n = adjList.size();
     vector<int> rank(n, 0);
     vector<int> pi(n);
-    // for (int i = 0; i < pi.size(); i++)
-    // {
-    //     pi[i] = i;
-    // }
+    
+    for (int i = 0; i < pi.size(); i++) {
+        // find smallest edge not been visited
+        // add to mst (using union by rank? or how to find which vertices does edge connect)
+        // union_by_rank(u, v, &rank, &pi)
+        // visited[i] = True;
+        // check if cycle --
+        // -- if cycle, delete from mst, and move on
+    }
 
     return mst;
 }
