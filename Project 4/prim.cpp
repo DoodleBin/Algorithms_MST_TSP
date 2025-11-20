@@ -64,7 +64,7 @@ bool isEmpty(vector<bool> &visited) {
  *      vector<Vertex> &adjList: Vector of the vertices
  *      vector<double> &adjMat: Vector of edge costs
  * Output:
- *      vector<Edge>: A vector of edes in the MST
+ *      vector<Edge>: A vector of edges in the MST
  * Function: Finds the minimum path and returns vector
  */
 vector<Edge> prim(vector<Vertex> &adjList, vector<double> &adjMat) {
@@ -97,9 +97,16 @@ vector<Edge> prim(vector<Vertex> &adjList, vector<double> &adjMat) {
 
     // loop through and update mst
     for(int current = 1; current < n; current++) {
-        adjList[current].mstNeighbors.push_back(prev[current]); // label of neighbor
-        adjList[prev[current]].mstNeighbors.push_back(current); // label of neighbor
-        Edge newEdge(adjList[current], adjList[prev[current]], adjMat[prev[current]*n + current]);
+        // connect in adjacency list
+        adjList[current].mstNeighbors.push_back(prev[current]); 
+        adjList[prev[current]].mstNeighbors.push_back(current);
+
+        // add edges
+        Edge newEdge(
+            adjList[current], 
+            adjList[prev[current]], 
+            adjMat[prev[current]*n + current]
+        );
         mst.push_back(newEdge);
     }
 

@@ -12,8 +12,15 @@
 
 using namespace std;
 
-/*
+/**
  * tsp
+ * Input:
+ *      vector<Vertex> &adjList: vector of vertices
+ *      Vertex &start: the starting vertex
+ * Output:
+ *      vector<int>: vector of integers 
+ * Function:
+ *      finds the shortest route 
  */
 vector<int> tsp(vector<Vertex> &adjList, Vertex &start) {
     // Create the empty tour.
@@ -23,22 +30,24 @@ vector<int> tsp(vector<Vertex> &adjList, Vertex &start) {
     int n = adjList.size();
     vector<bool> visited(n, false);
 
-    // int current = start.label;
-    // visited[current] = true;
-    // tour.push_back(current);
-    // int current = start.label;
+    // visit start and push to stack
+    stack<int> s;
     visited[start.label] = true;
-    tour.push_back(start.label);
+    s.push(start.label);
 
-    for(int j = 1; j < n; j++){
-        visited[j] = true;
+    while(not s.empty()) {
+        int curr = s.top();
+        s.pop();
+        visited[curr] = true; // marking current stop as visited
+        tour.push_back(curr); // since visited, put on tour
 
-        for (int i : adjList[j].neighbors){
-            if (visited[i] == false){
-                tour.push_back(i);
-            } // visit all unvisited neighbors
-        }
-    }
+        for(int i = 0; i < adjList[curr].mstNeighbors.size(); i++){
+            if(not visited[adjList[curr].mstNeighbors[i]]) {
+                s.push(adjList[curr].mstNeighbors[i]);
+            } // for the current vertex in mst, push value
+        } // loop through curr mst neighbors
+    } // while things to check
 
+    tour.push_back(start.label); // last stop, cyclical
     return tour;
 }
